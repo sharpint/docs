@@ -157,6 +157,25 @@
         });
       </script>
       
+        <script>     
+           cloudinary.api.resources({
+            type: 'upload',
+            prefix: 'memes/', // Nombre de la carpeta
+            resource_type: 'image',
+            max_results: 100 // O el número que necesites
+          }, function(result) {
+            const memesContainer = document.getElementById('memes-container');
+            result.resources.forEach(function(image) {
+              const imgElement = document.createElement('img');
+              imgElement.src = image.secure_url; // URL de la imagen
+              memesContainer.appendChild(imgElement);
+            });
+          });
+        </script>
+    
+
+
+      
       <footer style="background: #0d1117; color: #aaa; text-align: center; padding: 1rem; font-size: 0.9rem; margin-top: 2rem;">
         © SharpINT 2025 | <a href="https://github.com/sharpint" style="color: #8aff80; text-decoration: none;">GitHub</a>
       </footer>
