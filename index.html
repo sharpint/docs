@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SharpINT Docs</title>
+  <style>
+    body {
+      margin: 0;
+      background: #11121a;
+      color: #fff;
+      font-family: 'Ubuntu Mono', monospace;
+    }
+    .navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #0d1117;
+      padding: 0.5rem 1rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .navbar-logo {
+      width: 30px;
+      height: 30px;
+      background: #fff;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 0.5rem;
+    }
+    .navbar-logo img {
+      width: 24px;
+      height: 24px;
+    }
+    .navbar-title {
+      font-weight: bold;
+      color: #8aff80;
+      font-size: 1.2rem;
+      text-decoration: none;
+    }
+    .navbar-categories {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .navbar-link {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s;
+    }
+    .navbar-link:hover {
+      color: #8aff80;
+    }
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .navbar-icon {
+      background: #23272f;
+      border: none;
+      border-radius: 4px;
+      padding: 0.5em;
+      color: #fff;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+    .navbar-profile {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #8aff80 40%, #bd34fe 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-left">
+      <div class="navbar-logo">
+        <img src="https://avatars.githubusercontent.com/u/161966183?s=400&u=31eace7386cd10628e198e2e87dcbfdcc3800155&v=4" alt="Logo" />
+      </div>
+      <a href="https://sharpint.github.io" class="navbar-title">Home</a>
+      <div class="navbar-categories">
+        <a href="https://sharpint.github.io/docs" class="navbar-link">Docs</a>
+        <a href="https://sharpint.github.io/info" class="navbar-link">Info</a>
+        <a href="https://sharpint.github.io/sm" class="navbar-link">Social Media</a>
+        <a href="https://sharpint.github.io/drshitpost" class="navbar-link">DR Shitpost</a>
+      </div>
+    </div>
+    <div class="navbar-right">
+      <button class="navbar-icon">🔍</button>
+      <button class="navbar-icon">➕</button>
+    </div>
+  </nav>
+
+  <main style="padding: 1rem;">
+    <h1>Documentation</h1>
+    <p>Welcome to the SharpINT documentation page. Here you can add guides, FAQs, and other resources.</p>
+    
+    <section>
+      <h2>Getting Started, Open Source Meme Upload</h2>
+      <p>You can just send the meme to my dm of Discord! .1mtassinggtv OR using the form in the bottom</p>
+    </section>
+    
+    <section>
+        <h2>Submit Your Meme</h2>
+        <form id="memeForm">
+          <label for="memeImage">Select an image:</label><br/>
+          <input type="file" id="memeImage" accept="image/*" required /><br/><br/>
+          
+          <label for="memeDesc">Description (optional):</label><br/>
+          <input type="text" id="memeDesc" maxlength="100" placeholder="e.g.: The best meme of Deltarune" /><br/><br/>
+          
+          <button type="button" id="uploadButton">Upload Meme to Cloudinary</button>
+        </form>
+        <div id="message"></div>
+      </section>
+      
+      <!-- Script para cargar el widget -->
+      <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+      
+      <script>
+        // Esperamos que el usuario haga clic en el botón para abrir el widget
+        document.getElementById('uploadButton').addEventListener('click', function() {
+          cloudinary.openUploadWidget(
+            {
+              cloudName: 'di8p0gzhr',  // Tu Cloud Name
+              folder: 'memes',  // La carpeta en Cloudinary donde se almacenarán los memes
+              sources: ['local', 'url', 'camera'],
+              showAdvancedOptions: false,
+              cropping: false,
+              multiple: false
+            },
+            function(error, result) {
+              if (result && result.event === 'success') {
+                // Guardamos la URL de la imagen subida
+                uploadedImageUrl = result.info.secure_url;
+                document.getElementById('message').innerHTML = 'Image uploaded successfully!';
+                console.log(result.info);
+              } else if (error) {
+                document.getElementById('message').innerHTML = 'Error uploading image.';
+                console.log(error);
+              }
+            }
+          );
+        });
+      </script>
+      
+      <footer style="background: #0d1117; color: #aaa; text-align: center; padding: 1rem; font-size: 0.9rem; margin-top: 2rem;">
+        © SharpINT 2025 | <a href="https://github.com/sharpint" style="color: #8aff80; text-decoration: none;">GitHub</a>
+      </footer>
+      
+      </body>
