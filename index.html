@@ -8,7 +8,7 @@
       margin: 0;
       background: #11121a;
       color: #fff;
-      font-family: 'Ubuntu Mono', monospace;
+      font-family: 'Ubuntu Mono', 'Ubuntu Light', arial, monospace;
     }
     .navbar {
       display: flex;
@@ -82,6 +82,28 @@
       font-weight: bold;
       font-size: 1em;
     }
+    .btn-windows {
+     display: inline-flex;           /* Para alinear icono y texto */
+     align-items: center;
+     gap: 8px;
+     background-color: #21265b;      /* Fondo azul oscuro */
+     color: white;                   /* Texto blanco */
+     padding: 10px 16px;
+     border-radius: 8px;
+     text-decoration: none;          /* Quita subrayado */
+     font-weight: 600;
+     font-family: arial;
+     cursor: pointer;
+     user-select: none;
+     border: none;                   /* Sin borde */
+     transition: background-color 0.3s;
+    }
+
+    .btn-windows:hover {
+     background-color: #2e348f;      /* Color más claro al hover */
+    }
+
+
   </style>
 </head>
 <body>
@@ -111,8 +133,26 @@
     <section>
       <h2>Getting Started, Open Source Meme Upload</h2>
       <p>You can just send the meme to my dm of Discord! .1mtassinggtv OR using the form in the bottom</p>
+
+      <b>For discord: Go to discord -> add friend -> .1mtassinggtv and wait some time</b>
+      <b>For cloudinary: Use the button Upload Meme to Cloudinary</b>
     </section>
-    
+
+    <section>
+     <h1>My mod: OXIDEDTALE</h1>
+     <p>OXIDEDTALE is a mod that makes frisk oxided, and also, changes some strings, Try out name with the button below!</p>
+     <a href="ruta/del/archivo.exe" download class="btn-windows">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="white" viewBox="0 0 24 24">
+        <rect x="1" y="3" width="10" height="7" />
+        <rect x="12" y="3" width="10" height="7" />
+        <rect x="1" y="12" width="10" height="9" />
+        <rect x="12" y="12" width="10" height="9" />
+      </svg>
+      Download for Windows
+    </a>
+
+    </section>
+
     <section>
         <h2>Submit Your Meme</h2>
         <form id="memeForm">
@@ -136,6 +176,7 @@
           cloudinary.openUploadWidget(
             {
               cloudName: 'di8p0gzhr',  // Tu Cloud Name
+              uploadPreset: 'chetos',
               folder: 'memes',  // La carpeta en Cloudinary donde se almacenarán los memes
               sources: ['local', 'url', 'camera'],
               showAdvancedOptions: false,
