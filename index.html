@@ -102,7 +102,13 @@
     .btn-windows:hover {
      background-color: #2e348f;      /* Color más claro al hover */
     }
-
+    
+   
+   .mensaje {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+   }
 
   </style>
 </head>
@@ -197,14 +203,89 @@
           );
         });
       </script>
-      <h2>Foro - Preguntas y Respuestas</h2>
+
+<h2>Foro - Preguntas y Respuestas</h2>
 <form id="foroForm">
   <input type="text" id="nombre" placeholder="Tu nombre" required><br><br>
   <textarea id="mensaje" placeholder="Escribe tu mensaje" required></textarea><br><br>
   <button type="submit">Publicar</button>
 </form>
 
-<div id="foroMensajes" style="margin-top:20px;"></div>
+<div id="mensajes">
+  <!-- Los mensajes se cargarán aquí -->
+</div>
+
+<script type="module">
+  // Importar las funciones necesarias del SDK de Firebase
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+
+  // Configuración de Firebase
+  const firebaseConfig = {
+    apiKey: "AIzaSyBnW3Yh0k79PVdkzg1Y1FJH9XGtPfkXRPg",
+    authDomain: "deltarune-shitpost-page.firebaseapp.com",
+    projectId: "deltarune-shitpost-page",
+    storageBucket: "deltarune-shitpost-page.firebasestorage.app",
+    messagingSenderId: "996411698644",
+    appId: "1:996411698644:web:9d08505dac98273022ba41"
+  };
+
+  // Inicializar Firebase
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  // Referencia al formulario
+  const foroForm = document.getElementById('foroForm');
+
+  // Manejar el evento de envío del formulario
+  foroForm.addEventListener('submit', async function(event) {
+    event.preventDefault(); // Evitar que la página se recargue
+
+    // Obtener los datos del formulario
+    const nombre = document.getElementById('nombre').value;
+    const mensaje = document.getElementById('mensaje').value;
+
+    // Comprobar si ambos campos están completos
+    if (nombre && mensaje) {
+      try {
+        // Guardar el mensaje en Firestore
+        await addDoc(collection(db, "mensajes"), {
+          nombre: nombre,
+          mensaje: mensaje,
+          timestamp: serverTimestamp()  // Para ordenar los mensajes
+        });
+        console.log("Mensaje guardado con éxito!");
+
+        // Limpiar los campos del formulario después de enviar
+        document.getElementById('nombre').value = '';
+        document.getElementById('mensaje').value = '';
+      } catch (error) {
+        console.error("Error al guardar el mensaje: ", error);
+      }
+    } else {
+      alert("Por favor, completa ambos campos.");
+    }
+  });
+
+  // Escuchar los cambios en Firestore y mostrar los mensajes
+  const mensajesDiv = document.getElementById('mensajes');
+  const q = query(collection(db, "mensajes"), orderBy("timestamp", "asc"));
+
+  onSnapshot(q, (snapshot) => {
+    mensajesDiv.innerHTML = '';  // Limpiar los mensajes existentes
+
+    snapshot.forEach((doc) => {
+      const mensajeData = doc.data();
+      const mensajeElement = document.createElement('div');
+      mensajeElement.classList.add('mensaje');
+      mensajeElement.innerHTML = `
+        <strong>${mensajeData.nombre}</strong>: ${mensajeData.mensaje}<br>
+        <small>Publicado el ${new Date(mensajeData.timestamp.seconds * 1000).toLocaleString()}</small><br><br>
+      `;
+      mensajesDiv.appendChild(mensajeElement);
+    });
+  });
+</script>
 
 <script>
   const form = document.getElementById('foroForm');
