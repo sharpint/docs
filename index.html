@@ -197,7 +197,33 @@
           );
         });
       </script>
-      
+      <h2>Foro - Preguntas y Respuestas</h2>
+<form id="foroForm">
+  <input type="text" id="nombre" placeholder="Tu nombre" required><br><br>
+  <textarea id="mensaje" placeholder="Escribe tu mensaje" required></textarea><br><br>
+  <button type="submit">Publicar</button>
+</form>
+
+<div id="foroMensajes" style="margin-top:20px;"></div>
+
+<script>
+  const form = document.getElementById('foroForm');
+  const contenedor = document.getElementById('foroMensajes');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const nombre = document.getElementById('nombre').value;
+    const mensaje = document.getElementById('mensaje').value;
+
+    const div = document.createElement('div');
+    div.style.marginBottom = '15px';
+    div.innerHTML = `<b>${nombre}</b>:<br>${mensaje}`;
+    contenedor.prepend(div);
+
+    form.reset();
+  });
+</script>
+
         <script>     
            cloudinary.api.resources({
             type: 'upload',
@@ -214,7 +240,7 @@
           });
         </script>
     
-
+       
 
       
       <footer style="background: #0d1117; color: #aaa; text-align: center; padding: 1rem; font-size: 0.9rem; margin-top: 2rem;">
